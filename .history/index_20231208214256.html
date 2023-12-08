@@ -57,7 +57,7 @@
         </div>
         <div class="row fluid my-5 text-center">
             <div class="col text-center">
-                <button type="button" class="btn btn-primary" id="download" onclick="download()" href="assets/pixellated/luffy-5px.png" hidden>Download</button>
+                <button type="button" class="btn btn-primary" id="download" onclick="" href="assets/pixellated/luffy-5px.png" hidden>Download</button>
             </div>
         </div>
     </div>
@@ -74,9 +74,8 @@
         }, false);
         function download(){
                 var link = document.createElement('a');
-                let l = document.getElementById("fileInput").value.replace(/^.*[\\/]/, '').split(".");
-                link.download = l[0] + "-pixellated." + l[l.length - 1];
-                link.href = document.getElementById('canvasOutputFull').toDataURL()
+                link.download = 'filename.png';
+                link.href = document.getElementById('canvas').toDataURL()
                 link.click();
               
         }
