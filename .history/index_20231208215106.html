@@ -75,7 +75,7 @@
         function download(){
                 var link = document.createElement('a');
                 let l = document.getElementById("fileInput").value.replace(/^.*[\\/]/, '').split(".");
-                link.download = l[0] + "-pixellated.png" ;
+                link.download = l[0] + "-pixellated." + l[l.length - 1];
                 link.href = document.getElementById('canvasOutputFull').toDataURL()
                 link.click();
               
