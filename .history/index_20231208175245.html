@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pixie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+  </head>
+  <body>
+    <div class="container">
+    <p class="h1 my-5 display-1">Pixie</p>
+    <p class="h4 my-5 disabled">A Javascript Pixel Art Generator</p>
+    <form class="row g-3 needs-validation was-validated" novalidate onsubmit="">
+        <div class="my-3">
+            <label for="formFile" class="form-label">Select your image</label>
+            <input class="form-control" type="file" id="fileInput" >
+        </div>
+        <div class="my-3">
+            <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="imageSrc">
+        </div>
+        <label for="pixelSize" class="form-label">Pixel Size</label>
+        <input type="text" class="form-control" id="pixelSize" placeholder="10" value="10" required>
+        <div class="valid-feedback">
+            <button type="submit" class="btn btn-primary" id="processButton">Process</button>
+        </div>
+        <div class="invalid-feedback">
+            Please provide a valid pixel size.
+            <button type="submit" class="btn btn-primary disabled " id="processButton">Process</button>
+        </div>
+    </form>
+  <!-- Content here -->
+    <div class="my-3">
+        <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="imageOut"> -->
+        <canvas id="canvasOutput" class="img-thumbnail" src="https://via.placeholder.com/150" ></canvas>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        // source image
+        let imgElement = document.getElementById("imageSrc")
+        // input file form
+        let inputElement = document.getElementById("fileInput");
+        // pixel size
+        let pixelSize = Number(document.getElementById("pixelSize").value);
+        inputElement.addEventListener("change", (e) => {
+            imgElement.src = URL.createObjectURL(e.target.files[0]);
+            }, false);
+            imgElement.onload = function () {
+                let src = cv.imread(imgElement);
+
+                let newWidth =  Math.floor(src.cols / pixelSize);
+                let newHeight = Math.floor(src.rows / pixelSize);
+                let dsize = new cv.Size(newWidth, newHeight);
+                // resize smaller
+                cv.resize(src, dst, dsize, 0, 0, cv.INTER_AREA);
+                // apply convolution
+                let mat = cv.matFromArray(3, 3, cv.CV_64F, [-2, -2, -2, 
+                                                            -2, 32, -2,
+                                                            -2, -2, -2])
+                let anchor = new cv.Point(-1, -1);
+                cv.imshow('canvasOutput', dst);
+                src.delete(); dst.delete();
+            };
+        
+    </script>
+    <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+  </body>
+</html>
