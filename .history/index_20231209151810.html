@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-2 col-sm-3 col-11">
                     <label for="pixelSize" class="form-label">Pixel Size</label>
-                    <input type="number" class="form-control" id="pixelSize" value="10" min="1" max="1000" onchange="inputValidation()">
+                    <input type="number" class="form-control" id="pixelSize" value="10" min="1" max="1000" onchange="pixelSizeValidation">
                 </div>
                 <input type="text" class="form-control" id="paletteValues" value=""  hidden >
             </div>
@@ -424,6 +424,7 @@
             }
             else{
                 input.classList.remove( "is-invalid");
+                butn.disabled = false;
                 return true;
             }
         }
@@ -433,7 +434,8 @@
             let max = 1000;
             // check if value is a number
             let value = Number(input.value);
-            if (isNaN(value) || value < min || value > max){
+            console.log(value);
+            if (isNaN(value)){
                 // disable button
                 let butn = document.getElementById("pixellate");
                 butn.disabled = true;
