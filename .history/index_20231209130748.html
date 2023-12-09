@@ -38,10 +38,10 @@
                         <option value="Custom">Custom</option>
                       </select>
                 </div>
-                <!-- <div class="col-md-3 col-sm-12 col-11 pb-3">
+                <div class="col-md-3 col-sm-12 col-11 pb-3">
                     <label for="paletteChoice" class="form-label">Palette</label>
                     <input type="text" class="form-control" id="paletteValues" value="" >
-                </div> -->
+                </div>
                 <div data-bs-spy="scroll" data-bs-smooth-scroll="true" class="col-11 col-md-8 col-sm-12 bg-secondary-subtle rounded px-2 py-3 my-3 text-center scrollspy-example" id="palette">
 
                 </div>
@@ -184,9 +184,6 @@
             // show download button
             let butn = document.getElementById("download");
             butn.hidden = false;
-            // move to image
-            // 
-            canvas.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
         };
         
         function colorSim(color, color2){
