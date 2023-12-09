@@ -440,7 +440,7 @@
                 butn.disabled = true;
                 input.classList.add( "is-invalid");
                 const toastMessage = document.getElementById('toastMessage')
-                toastMessage.innerHTML = "Error: Pixel size must be a number"
+                toastMessage.innerHTML = "Error: Pixel size must be a number between " + min + " and " + max + "."
                 const toastLiveExample = document.getElementById('liveToast')
                 const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                 toastBootstrap.show()
