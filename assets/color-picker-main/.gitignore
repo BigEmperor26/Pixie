@@ -1,0 +1,10 @@
+.npmignore
+.nyc_output
+node_modules
+experiments
+coverage
+cypress/videos
+cypress/screenshots
+cypress/downloads
+cypress/coverage
+cypress/instrumented

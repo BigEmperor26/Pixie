@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pixie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+  </head>
+  <body>
+    <div class="container fluid">
+    <p class="h1 my-5 display-1">Pixie</p>
+    <p class="h4 my-5 disabled">A Javascript Pixel Art Generator</p>
+    <p class="h5 my-5 disabled">Powered by OpenCV</p>
+    <div class="container fluid">
+            <div class="row fluid">
+                <div class="col-md-10 col-sm-10">
+                    <label for="fileInput" class="form-label">Select your image</label>
+                    <input class="form-control" type="file" id="fileInput"  >
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label for="pixelSize" class="form-label">Pixel Size</label>
+                    <input type="text" class="form-control" id="pixelSize" value="10"   >
+                </div>
+            </div>
+            <div class="row fluid my-5 text-center">
+                <div class="col text-center">
+                    <button type="button" class="btn btn-primary" id="pixellate" onclick="pixellate()" disabled>Pixellate</button>
+                </div>
+            </div>
+            <div class="row fluid my-5 text-center">
+                <div class="col text-center">
+                    <div class="my-3">
+                        <img src="https://via.placeholder.com/150" class="img" alt="..." onclick="" hidden id="imageSrc">
+                    </div>
+                </div>  
+            </div>  
+
+    <!-- Content here -->
+        <div class="row fluid my-5 text-center">
+            <div class="col text-center">
+                <div class="my-3">
+            <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="imageOut"> -->
+                    <canvas id="canvasOutput" class="img-thumbnail md-w-80 w-50 p" hidden ></canvas>
+            <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="canvasOutput"> -->
+                </div>
+            </div>
+        </div>
+        <div class="row fluid my-5 text-center">
+            <div class="col text-center">
+                <div class="my-3">
+            <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="imageOut"> -->
+                    <canvas id="canvasOutputFull" class="img" hidden></canvas>
+            <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="canvasOutput"> -->
+                </div>
+            </div>
+        </div>
+        <div class="row fluid my-5 text-center">
+            <div class="col text-center">
+                <button type="button" class="btn btn-primary" id="download" onclick="download()" href="assets/pixellated/luffy-5px.png" hidden>Download</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        let inputElement = document.getElementById("fileInput");
+        let imgElement = document.getElementById("imageSrc")
+        // show preview of old image
+        inputElement.addEventListener("change", (e) => {
+            imgElement.src = URL.createObjectURL(e.target.files[0]);
+            let butn = document.getElementById("pixellate");
+            butn.disabled = false;
+        }, false);
+        function download(){
+                var link = document.createElement('a');
+                let l = document.getElementById("fileInput").value.replace(/^.*[\\/]/, '').split(".");
+                link.download = l[0] + "-pixellated.png" ;
+                link.href = document.getElementById('canvasOutputFull').toDataURL()
+                link.click();
+              
+        }
+        function pixellate(){
+            // source image
+            let imgElement = document.getElementById("imageSrc")
+            let src = cv.imread(imgElement);
+            let pixelSize = Number(document.getElementById("pixelSize").value);
+            let newWidth =  Math.floor(src.cols / pixelSize);
+            let newHeight = Math.floor(src.rows / pixelSize);
+            let dsize = new cv.Size(newWidth, newHeight);
+            
+            // resize smaller
+            let dst = new cv.Mat(dsize, cv.CV_8SC4)
+            cv.resize(src, dst, dsize, 0, 0, cv.INTER_AREA);
+            src.delete();
+            // copy back to src
+            
+            
+            // apply convolution
+            src = dst;
+            // create new dst
+            dst = new cv.Mat(dsize, cv.CV_8SC4)
+            let kernel =   [-1, -1, -1, 
+                            -1, 9, -1,
+                            -1, -1, -1 ]
+            let mat = cv.matFromArray(3, 3, cv.CV_8S, kernel)
+            let anchor = new cv.Point(-1, -1);
+            cv.filter2D(src, dst, -1, mat, anchor,0, cv.BORDER_DEFAULT);
+            src.delete();
+            
+            // conver to RGB 
+            src = dst;
+            dst = new cv.Mat(dsize, cv.CV_8SC3)
+            cv.cvtColor(src, dst, cv.COLOR_RGBA2RGB);
+            src.delete();
+
+             //recolour
+             
+             src = dst;
+             //dst = new cv.Mat(dsize, cv.CV_8SC3)
+             dst = src.clone();
+             //let colors = [[255,0,0],[0,255,0],[0,0,255],[255,255,0],[255,0,255],[0,255,255],[255,255,255],[0,0,0]];
+             let colors = paletteGenerator(16,16,10);
+             recolour(src, dst, colors);
+            
+             src.delete();
+
+            // copy back to src
+            src = dst;
+            // // create new dst
+            dst = new cv.Mat(dsize, cv.CV_8SC4)
+            // move back to RGBA
+            cv.cvtColor(src, dst, cv.COLOR_RGB2RGBA);
+            src.delete();
+
+            // rescale up
+            // copy back to src
+            src = dst;
+            // create new dst for upscaling
+            let upWidth =  Math.floor(src.cols * pixelSize);
+            let upHeight = Math.floor(src.rows * pixelSize);
+            let updsize = new cv.Size(upWidth, upHeight);
+            dst = new cv.Mat(updsize, cv.CV_8SC4)
+            cv.resize(src, dst, updsize, 0, 0, cv.INTER_NEAREST);
+            src.delete(); 
+
+            // show image
+            cv.imshow('canvasOutput', dst);
+            cv.imshow('canvasOutputFull', dst);
+            canvas = document.getElementById('canvasOutput');
+            canvas.hidden = false;
+            dst.delete();
+            // show download button
+            let butn = document.getElementById("download");
+            butn.hidden = false;
+        };
+        
+        function colorSim(color, color2){
+            let sim = 0;
+            for(let i = 0; i < color.length; i++){
+                sim += Math.pow(color[i] - color2[i],2);
+            }
+            return Math.sqrt(sim);
+        }
+        function bestColor(color, colors){
+            let best = colors[0]
+            let bestSim = colorSim(color, colors[0]);
+            for(let k = 1; k < colors.length; k++){
+                let sim = colorSim(color, colors[k]);
+                if(sim < bestSim){
+                    best = colors[k];
+                    bestSim = sim;
+                }
+            }
+            return best;
+        }
+        function recolour(src, dst, colors){
+            for (let i = 0; i < src.rows; i++) {
+                for (let j = 0; j < src.cols; j++) {
+                    let pixel = src.ucharPtr(i, j);
+                    let best = bestColor(pixel, colors);
+                    dst.data.set(best, i * src.cols * src.channels() + j * src.channels());
+                    
+                }
+            }
+
+        }
+        function paletteGenerator(numberHues,numberSaturation,numberValues){
+            let colours = [];
+            for(let i = 0; i < numberHues; i++){
+                for(let k=0; k < numberSaturation; k++){
+                    for(let j = 0; j < numberValues; j++){
+                        let hue = i * (1 / numberHues);
+                        let saturation = k * (1 / numberSaturation);
+                        let value = j * (1/ numberValues);
+                        let color = hsl2rgb(hue,saturation,value);
+                        colours.push(color);
+                    }
+                }
+            }
+            return colours;
+        };
+        function hsv2rgb(h, s, v) {
+            var r, g, b, i, f, p, q, t;
+            i = Math.floor(h * 6);
+            f = h * 6 - i;
+            p = v * (1 - s);
+            q = v * (1 - f * s);
+            t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0: r = v, g = t, b = p; break;
+                case 1: r = q, g = v, b = p; break;
+                case 2: r = p, g = v, b = t; break;
+                case 3: r = p, g = q, b = v; break;
+                case 4: r = t, g = p, b = v; break;
+                case 5: r = v, g = p, b = q; break;
+            }
+            return [ 
+                Math.round(r * 255),
+                Math.round(g * 255),
+                Math.round(b * 255)];
+            
+        }
+        function hue2rgb(p, q, t) {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1/6) return p + (q - p) * 6 * t;
+            if (t < 1/2) return q;
+            if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+          }
+        function hsl2rgb(h, s, l) {
+            let r, g, b;
+          
+            if (s === 0) {
+              r = g = b = l; // achromatic
+            } else {
+              const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+              const p = 2 * l - q;
+              r = hue2rgb(p, q, h + 1/3);
+              g = hue2rgb(p, q, h);
+              b = hue2rgb(p, q, h - 1/3);
+            }
+          
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+          }
+    </script>
+    <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+  </body>
+</html>
