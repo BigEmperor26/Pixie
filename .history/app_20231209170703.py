@@ -255,6 +255,6 @@ if __name__ == '__main__':
     pix = Pixie.pixellate_resize(cv_filter, 5)
     pix.show()
     
-    palette = Image.open('assets/palette.jpg')
+    palette = Image.open('assets/palette.png')
     palette = Pixie.colorImage(small)
     print(palette)

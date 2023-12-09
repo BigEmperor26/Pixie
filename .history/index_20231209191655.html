@@ -17,7 +17,7 @@
             <div class="row fluid my-3 px-3">
                 <div class="col-md-9 col-sm-9 col-11 pb-3">
                     <label for="fileInput" class="form-label">Select your image</label>
-                    <input class="form-control" type="file" id="fileInput"  onchange="imgValidation();">
+                    <input class="form-control" type="file" id="fileInput"  onchange="inputValidation();">
                 </div>
                 <div class="col-md-2 col-sm-3 col-11">
                     <label for="pixelSize" class="form-label">Pixel Size</label>
@@ -115,9 +115,6 @@
         inputElement.addEventListener("change", (e) => {
             imgElement.src = URL.createObjectURL(e.target.files[0]);
         }, false);
-        imgElement.onload = function() {
-            inputValidation();
-        }
     </script>
     <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
   </body>

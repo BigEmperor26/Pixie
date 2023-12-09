@@ -201,7 +201,7 @@ class Pixie:
         """
         img = img.convert('RGB')
         np_img = np.array(img)
-        h,w,_ = np_img.shape
+        h,w,c = np_img.shape
         colors = {}
         for i in range(h):
             for j in range(w):
@@ -254,7 +254,3 @@ if __name__ == '__main__':
     cv2_resize.show()
     pix = Pixie.pixellate_resize(cv_filter, 5)
     pix.show()
-    
-    palette = Image.open('assets/palette.jpg')
-    palette = Pixie.colorImage(small)
-    print(palette)

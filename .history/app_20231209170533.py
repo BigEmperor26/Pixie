@@ -254,7 +254,3 @@ if __name__ == '__main__':
     cv2_resize.show()
     pix = Pixie.pixellate_resize(cv_filter, 5)
     pix.show()
-    
-    palette = Image.open('assets/palette.jpg')
-    palette = Pixie.colorImage(small)
-    print(palette)

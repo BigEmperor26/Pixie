@@ -345,12 +345,12 @@ function changePalette(){
                 break;
             case "Automatic":
                 // wait 1 second for image to load
-                // setTimeout(function(){ 
-                //     colors = getPaletteFromImage(document.getElementById("imageSrc"));
-                //     displayPalette(colors);
-                //     // set palette values
-                //     document.getElementById("paletteValues").value = JSON.stringify(colors);
-                // }, 1);
+                setTimeout(function(){ 
+                    colors = getPaletteFromImage(document.getElementById("imageSrc"));
+                    displayPalette(colors);
+                    // set palette values
+                    document.getElementById("paletteValues").value = JSON.stringify(colors);
+                }, 1);
                 colors = getPaletteFromImage(document.getElementById("imageSrc"));
                 break;
         }
@@ -442,8 +442,9 @@ function pixelSizeValidation(){
     }
 }
 function pixelOverSizeValidation(){
+    // wait 1 ms for image to load
+    
     let input = document.getElementById("pixelSize");
-
     let img = document.getElementById("imageSrc");
     let size = Number(input.value);
     if (size > img.width || size > img.height){
@@ -458,13 +459,12 @@ function pixelOverSizeValidation(){
         toastBootstrap.show()
         return false;
     }
-    else{
-        input.classList.remove( "is-invalid");
-        return true;
-    }
+else{
+    input.classList.remove( "is-invalid");
+    return true;
+}
 }
 function inputValidation(){
-    // wait 1 ms
     let img = imgValidation();
     let pixel = pixelSizeValidation();
     // rechange the palette if needed

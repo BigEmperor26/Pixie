@@ -17,7 +17,7 @@
             <div class="row fluid my-3 px-3">
                 <div class="col-md-9 col-sm-9 col-11 pb-3">
                     <label for="fileInput" class="form-label">Select your image</label>
-                    <input class="form-control" type="file" id="fileInput"  onchange="imgValidation();">
+                    <input class="form-control" type="file" id="fileInput"  onchange="inputValidation();">
                 </div>
                 <div class="col-md-2 col-sm-3 col-11">
                     <label for="pixelSize" class="form-label">Pixel Size</label>
@@ -32,12 +32,12 @@
                     <select class="form-select"  id ="paletteChoice" onchange="changePalette()">
                         <option value="Minecraft">Minecraft</option>
                         <option value="NES">NES</option>
-                        <option selected value="Default">Standard</option>
+                        <option value="Default">Standard</option>
                         <option value="Grayscale">Grayscale</option>
                         <option value="Colorful">Colorful</option>
                         <option value="Ultra Colorful">Ultra colorful</option>
                         <option value="None">Original colors</option>
-                        <option value="Automatic">Automatic</option>
+                        <option selected value="Automatic">Automatic</option>
                         <!-- <option value="Custom">Custom</option> -->
                       </select>
                 </div>
@@ -104,20 +104,17 @@
         
     </div>
     <script src="pixie.js">
-    </script>
-    <script src="quantization.js">
+        
     </script>
     <script>
         let inputElement = document.getElementById("fileInput");
         let imgElement = document.getElementById("imageSrc");
-        // load the default palette
+        let palette = changePalette();
         // show preview of old image
         inputElement.addEventListener("change", (e) => {
             imgElement.src = URL.createObjectURL(e.target.files[0]);
+            let butn = document.getElementById("pixellate");
         }, false);
-        imgElement.onload = function() {
-            inputValidation();
-        }
     </script>
     <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
   </body>

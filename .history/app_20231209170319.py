@@ -194,19 +194,7 @@ class Pixie:
     @staticmethod
     def colorImage(img:Image.Image) -> list[tuple[int,int,int]]:
         
-        """
-        function to automatically take all the colours in RGB from an image
-        :param img: Image
         
-        """
-        img = img.convert('RGB')
-        np_img = np.array(img)
-        h,w,_ = np_img.shape
-        colors = {}
-        for i in range(h):
-            for j in range(w):
-                colors[tuple(np_img[i,j,:])] = 1
-        return list(colors.keys())
 if __name__ == '__main__':
     # open image
     # img = Image.open('assets/luffy-chibi-2.png')
@@ -254,7 +242,3 @@ if __name__ == '__main__':
     cv2_resize.show()
     pix = Pixie.pixellate_resize(cv_filter, 5)
     pix.show()
-    
-    palette = Image.open('assets/palette.jpg')
-    palette = Pixie.colorImage(small)
-    print(palette)

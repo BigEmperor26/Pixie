@@ -445,6 +445,7 @@ function pixelOverSizeValidation(){
     let input = document.getElementById("pixelSize");
 
     let img = document.getElementById("imageSrc");
+    console.log(img);
     let size = Number(input.value);
     if (size > img.width || size > img.height){
         // disable button

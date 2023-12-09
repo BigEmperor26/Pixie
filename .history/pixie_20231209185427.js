@@ -345,12 +345,12 @@ function changePalette(){
                 break;
             case "Automatic":
                 // wait 1 second for image to load
-                // setTimeout(function(){ 
-                //     colors = getPaletteFromImage(document.getElementById("imageSrc"));
-                //     displayPalette(colors);
-                //     // set palette values
-                //     document.getElementById("paletteValues").value = JSON.stringify(colors);
-                // }, 1);
+                setTimeout(function(){ 
+                    colors = getPaletteFromImage(document.getElementById("imageSrc"));
+                    displayPalette(colors);
+                    // set palette values
+                    document.getElementById("paletteValues").value = JSON.stringify(colors);
+                }, 5);
                 colors = getPaletteFromImage(document.getElementById("imageSrc"));
                 break;
         }
@@ -443,7 +443,6 @@ function pixelSizeValidation(){
 }
 function pixelOverSizeValidation(){
     let input = document.getElementById("pixelSize");
-
     let img = document.getElementById("imageSrc");
     let size = Number(input.value);
     if (size > img.width || size > img.height){
@@ -452,25 +451,26 @@ function pixelOverSizeValidation(){
         butn.disabled = true;
         input.classList.add( "is-invalid");
         const toastMessage = document.getElementById('toastMessage')
-        toastMessage.innerHTML = "Error: Pixel size "+ size+" must be smaller than both dimensions of image size " + img.width  + "x" + img.height + "."
+        toastMessage.innerHTML = "Error: Pixel size "+ size+" must be smaller than both dimensions of image size " + mat.cols + "x" + mat.rows + "."
         const toastLiveExample = document.getElementById('liveToast')
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
         toastBootstrap.show()
         return false;
     }
-    else{
-        input.classList.remove( "is-invalid");
-        return true;
-    }
+else{
+    input.classList.remove( "is-invalid");
+    return true;
+}
 }
 function inputValidation(){
-    // wait 1 ms
     let img = imgValidation();
     let pixel = pixelSizeValidation();
     // rechange the palette if needed
-    let pixelOver = pixelOverSizeValidation();
+    //let pixelOver = pixelOverSizeValidation();
+    let pixelOver = true;
     let butn = document.getElementById("pixellate");
     if(img && pixel && pixelOver){
+        console.log("valid");
         changePalette();
         // check that pixel size is not larger than either image width or height
         butn.disabled = false;
