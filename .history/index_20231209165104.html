@@ -106,18 +106,18 @@
     </div>
         
     </div>
-    <script src="pixie.js">
+    <script src="pixellate.js">
+        <script>
+            let inputElement = document.getElementById("fileInput");
+            let imgElement = document.getElementById("imageSrc");
+            let palette = changePalette();
+            // show preview of old image
+            inputElement.addEventListener("change", (e) => {
+                imgElement.src = URL.createObjectURL(e.target.files[0]);
+                let butn = document.getElementById("pixellate");
+            }, false);
+        </script>
         
-    </script>
-    <script>
-        let inputElement = document.getElementById("fileInput");
-        let imgElement = document.getElementById("imageSrc");
-        let palette = changePalette();
-        // show preview of old image
-        inputElement.addEventListener("change", (e) => {
-            imgElement.src = URL.createObjectURL(e.target.files[0]);
-            let butn = document.getElementById("pixellate");
-        }, false);
     </script>
     <script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
   </body>

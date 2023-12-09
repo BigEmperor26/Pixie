@@ -12,7 +12,16 @@
     <script src="pixie.js"></script>
     <script src="opencv.js"> </script>
     <script type="text/javascript">
-
+      let example_palette = [[200,0,0], [0,200,0], [0,0,200]];
+      // add element to the page
+      let img = document.getElementById('img');
+      
+      // create a canvas
+      let canvas = document.getElementById('canvas');
+      
+      // call pixellate
+      
+      pixellate(img, canvas, 10, example_palette);
       </script>
   </body>
 </html>
