@@ -17,11 +17,11 @@
             <div class="row fluid my-3 px-3">
                 <div class="col-md-9 col-sm-9 col-11 pb-3">
                     <label for="fileInput" class="form-label">Select your image</label>
-                    <input class="form-control" type="file" id="fileInput"  onchange="inputValidation();">
+                    <input class="form-control" type="file" id="fileInput"  onchange="imgValidation();">
                 </div>
                 <div class="col-md-2 col-sm-3 col-11">
                     <label for="pixelSize" class="form-label">Pixel Size</label>
-                    <input type="text" class="form-control" id="pixelSize" value="10" onchange="inputValidation();">
+                    <input type="text" class="form-control" id="pixelSize" value="10" onchange="pixelSizeValidation()">
                 </div>
                 <input type="text" class="form-control" id="paletteValues" value=""  hidden >
             </div>
@@ -108,6 +108,7 @@
         inputElement.addEventListener("change", (e) => {
             imgElement.src = URL.createObjectURL(e.target.files[0]);
             let butn = document.getElementById("pixellate");
+            butn.disabled = false;
         }, false);
         function download(){
                 var link = document.createElement('a');
@@ -407,7 +408,6 @@
             if (!isImage(input.value)){
                 // disable button
                 let butn = document.getElementById("pixellate");
-                butn.disabled = true;
                 //
                 input.classList.add( "is-invalid");
                 const toastMessage = document.getElementById('toastMessage')
@@ -415,11 +415,14 @@
                 const toastLiveExample = document.getElementById('liveToast')
                 const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                 toastBootstrap.show()
-                return false;
+                //data-bs-toggle="popover" data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?"
+
             }
             else{
+                // enable button
+                let butn = document.getElementById("pixellate");
+                butn.disabled = false;
                 input.classList.remove( "is-invalid");
-                return true;
             }
         }
         function pixelSizeValidation(){
@@ -434,28 +437,13 @@
                 let butn = document.getElementById("pixellate");
                 butn.disabled = true;
                 input.classList.add( "is-invalid");
-                const toastMessage = document.getElementById('toastMessage')
-                toastMessage.innerHTML = "Error: Pixel size must be a number"
-                const toastLiveExample = document.getElementById('liveToast')
-                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                toastBootstrap.show()
-                return false;
+                return;
             }else{
-                input.classList.remove( "is-invalid");
-                return true;
-            }
-        }
-        function inputValidation(){
-            let img = imgValidation();
-            let pixel = pixelSizeValidation();
-            let butn = document.getElementById("pixellate");
-            console.log(img);
-            console.log(pixel);
-            if(img && pixel){
+                // enable button
+                let butn = document.getElementById("pixellate");
                 butn.disabled = false;
-            }
-            else{
-                butn.disabled = true;
+                input.classList.remove( "is-invalid");
+            
             }
         }
 

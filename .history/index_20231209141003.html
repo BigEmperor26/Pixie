@@ -17,11 +17,11 @@
             <div class="row fluid my-3 px-3">
                 <div class="col-md-9 col-sm-9 col-11 pb-3">
                     <label for="fileInput" class="form-label">Select your image</label>
-                    <input class="form-control" type="file" id="fileInput"  onchange="inputValidation();">
+                    <input class="form-control" type="file" id="fileInput"  >
                 </div>
                 <div class="col-md-2 col-sm-3 col-11">
                     <label for="pixelSize" class="form-label">Pixel Size</label>
-                    <input type="text" class="form-control" id="pixelSize" value="10" onchange="inputValidation();">
+                    <input type="text" class="form-control" id="pixelSize" value="10" >
                 </div>
                 <input type="text" class="form-control" id="paletteValues" value=""  hidden >
             </div>
@@ -62,6 +62,7 @@
                     </div>
                 </div>  
             </div>  
+            <p class="muted">Placeholder text to demonstrate some <a href="#" data-bs-toggle="tooltip" data-bs-title="Default tooltip">inline links</a> with tooltips. This is now just filler, no killer. Content placed here just to mimic the presence of <a href="#" data-bs-toggle="tooltip" data-bs-title="Another tooltip">real text</a>. And all that just to give you an idea of how tooltips would look when used in real-world situations. So hopefully you've now seen how <a href="#" data-bs-toggle="tooltip" data-bs-title="Another one here too">these tooltips on links</a> can work in practice, once you use them on <a href="#" data-bs-toggle="tooltip" data-bs-title="The last tip!">your own</a> site or project.</p>
 
     <!-- Content here -->
         <div class="d-flex justify-content-center px-3">
@@ -86,21 +87,11 @@
                 <button type="button" class="btn btn-primary" id="download" onclick="download()" href="assets/pixellated/luffy-5px.png" hidden>Download</button>
             </div>
         </div>
-        <div class="toast-container position-fixed bottom-0 p-3 m-3">
-            <div id="liveToast" class="toast text-bg-danger  " role="alert" aria-live="assertive" aria-atomic="true"  >
-              <div class="toast-header">
-                <!-- <img src="..." class="rounded me-2" alt="..."> -->
-                <strong class="me-auto"> Error</strong>
-                <!-- <small>11 mins ago</small> -->
-              </div>
-              <div class="toast-body" id="toastMessage">
-                Error: file is not an image
-              </div>
-            </div>
-          </div>
     </div>
 
     <script type="text/javascript">
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
         let inputElement = document.getElementById("fileInput");
         let imgElement = document.getElementById("imageSrc");
         let palette = changePalette();
@@ -108,6 +99,7 @@
         inputElement.addEventListener("change", (e) => {
             imgElement.src = URL.createObjectURL(e.target.files[0]);
             let butn = document.getElementById("pixellate");
+            butn.disabled = false;
         }, false);
         function download(){
                 var link = document.createElement('a');
@@ -402,60 +394,21 @@
             }
             return false;
         }
-        function imgValidation(){
+        function inputValidation(){
             let input = document.getElementById("fileInput");
             if (!isImage(input.value)){
                 // disable button
                 let butn = document.getElementById("pixellate");
-                butn.disabled = true;
                 //
-                input.classList.add( "is-invalid");
-                const toastMessage = document.getElementById('toastMessage')
-                toastMessage.innerHTML = "Error: file is not an image. Supported formats: jpg, gif, bmp, png, webp"
-                const toastLiveExample = document.getElementById('liveToast')
-                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                toastBootstrap.show()
-                return false;
-            }
-            else{
-                input.classList.remove( "is-invalid");
-                return true;
-            }
-        }
-        function pixelSizeValidation(){
-            let input = document.getElementById("pixelSize");
-            let min = 1;
-            let max = 1000;
-            // check if value is a number
-            let value = Number(input.value);
-            console.log(value);
-            if (isNaN(value)){
-                // disable button
-                let butn = document.getElementById("pixellate");
-                butn.disabled = true;
-                input.classList.add( "is-invalid");
-                const toastMessage = document.getElementById('toastMessage')
-                toastMessage.innerHTML = "Error: Pixel size must be a number"
-                const toastLiveExample = document.getElementById('liveToast')
-                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                toastBootstrap.show()
-                return false;
-            }else{
-                input.classList.remove( "is-invalid");
-                return true;
-            }
-        }
-        function inputValidation(){
-            let img = imgValidation();
-            let pixel = pixelSizeValidation();
-            let butn = document.getElementById("pixellate");
-            console.log(img);
-            console.log(pixel);
-            if(img && pixel){
-                butn.disabled = false;
-            }
-            else{
-                butn.disabled = true;
+                input.classList.add( "in-invalid");
+                // add popover to the input
+                input.setAttribute("data-bs-toggle", "popover");
+                input.setAttribute("data-bs-content", "Invalid input file. Supported files are jpg, gif, bmp, png, webp");
+                input.setAttribute("data-bs-placement", "bottom");
+                input.setAttribute("data-bs-trigger", "focus");
+                input.setAttribute("data-bs-html", "true");
+                input.setAttribute("data-bs-title", "Invalid input");
+                //data-bs-toggle="popover" data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?"
             }
         }
 

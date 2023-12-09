@@ -108,6 +108,7 @@
         inputElement.addEventListener("change", (e) => {
             imgElement.src = URL.createObjectURL(e.target.files[0]);
             let butn = document.getElementById("pixellate");
+            butn.disabled = false;
         }, false);
         function download(){
                 var link = document.createElement('a');
@@ -448,13 +449,14 @@
         function inputValidation(){
             let img = imgValidation();
             let pixel = pixelSizeValidation();
-            let butn = document.getElementById("pixellate");
             console.log(img);
             console.log(pixel);
             if(img && pixel){
+                let butn = document.getElementById("pixellate");
                 butn.disabled = false;
             }
             else{
+                let butn = document.getElementById("pixellate");
                 butn.disabled = true;
             }
         }
