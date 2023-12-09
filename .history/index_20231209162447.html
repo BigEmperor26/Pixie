@@ -532,8 +532,9 @@
         function pixelOverSizeValidation(){
             let input = document.getElementById("pixelSize");
             let img = document.getElementById("imageSrc");
+            let mat = cv.imread(img);
             let size = Number(input.value);
-            if (size > img.width || size > img.height){
+            if (size > mat.cols || size > mat.rows){
                 // disable button
                 let butn = document.getElementById("pixellate");
                 butn.disabled = true;
@@ -543,18 +544,19 @@
                 const toastLiveExample = document.getElementById('liveToast')
                 const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                 toastBootstrap.show()
+                mat.delete();
                 return false;
             }
         else{
             input.classList.remove( "is-invalid");
+            mat.delete();
             return true;
         }
         }
         function inputValidation(){
             let img = imgValidation();
             let pixel = pixelSizeValidation();
-            //let pixelOver = pixelOverSizeValidation();
-            let pixelOver = true;
+            let pixelOver = pixelOverSizeValidation();
             let butn = document.getElementById("pixellate");
             if(img && pixel && pixelOver){
                 // check that pixel size is not larger than either image width or height
