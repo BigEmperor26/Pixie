@@ -224,8 +224,6 @@ if __name__ == '__main__':
     small = Pixie.resize(img, new_widht, new_height)
     
     lg = Pixie.resize(small, small.width*5, small.height*5)
-    lg.show()
-    # lg.save('assets/luffy-blurry.png')
     
     pysharp = small.filter(ImageFilter.EDGE_ENHANCE_MORE)
     #  pysharp = small.filter(ImageFilter.EDGE_ENHANCE_MORE)
@@ -234,7 +232,6 @@ if __name__ == '__main__':
     
     pix = Pixie.pixellate_resize(pysharp, 5)
     pix.show()
-    pix.save('assets/luffy-pixellated.png')
     
     # k = np.array([[-2,-2,-2], [-2,32,-2], [-2,-2,-2]], dtype=np.int8)/16
     k = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]], dtype=np.float32)

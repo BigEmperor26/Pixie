@@ -234,7 +234,6 @@ if __name__ == '__main__':
     
     pix = Pixie.pixellate_resize(pysharp, 5)
     pix.show()
-    pix.save('assets/luffy-pixellated.png')
     
     # k = np.array([[-2,-2,-2], [-2,32,-2], [-2,-2,-2]], dtype=np.int8)/16
     k = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]], dtype=np.float32)
