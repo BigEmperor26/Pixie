@@ -510,10 +510,10 @@
         function pixelSizeValidation(){
             let input = document.getElementById("pixelSize");
             let min = 1;
-            //let max = 1000;
+            let max = 1000;
             // check if value is a number
             let value = Number(input.value);
-            if (isNaN(value) || value < min ){
+            if (isNaN(value) || value < min || value > max){
                 // disable button
                 let butn = document.getElementById("pixellate");
                 butn.disabled = true;
@@ -533,32 +533,14 @@
             let input = document.getElementById("pixelSize");
             let img = document.getElementById("imageSrc");
             let mat = cv.imread(img);
-            let size = Number(input.value);
-            if (size > mat.cols || size > mat.rows){
-                // disable button
-                let butn = document.getElementById("pixellate");
-                butn.disabled = true;
-                input.classList.add( "is-invalid");
-                const toastMessage = document.getElementById('toastMessage')
-                toastMessage.innerHTML = "Error: Pixel size "+ size+" must be smaller than both dimensions of image size " + mat.cols + "x" + mat.rows + "."
-                const toastLiveExample = document.getElementById('liveToast')
-                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                toastBootstrap.show()
-                return false;
-            }
-        else{
-            input.classList.remove( "is-invalid");
-            return true;
-        }
         }
         function inputValidation(){
             let img = imgValidation();
             let pixel = pixelSizeValidation();
-            let pixelOver = pixelOverSizeValidation();
             let butn = document.getElementById("pixellate");
             console.log(img);
             console.log(pixel);
-            if(img && pixel && pixelOver){
+            if(img && pixel){
                 // check that pixel size is not larger than either image width or height
                 butn.disabled = false;
             }

@@ -540,7 +540,7 @@
                 butn.disabled = true;
                 input.classList.add( "is-invalid");
                 const toastMessage = document.getElementById('toastMessage')
-                toastMessage.innerHTML = "Error: Pixel size "+ size+" must be smaller than both dimensions of image size " + mat.cols + "x" + mat.rows + "."
+                toastMessage.innerHTML = "Error: Pixel size "+ size+" must be smaller than both dimensions of image size" + mat.cols + "x" + mat.rows + "."
                 const toastLiveExample = document.getElementById('liveToast')
                 const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                 toastBootstrap.show()
