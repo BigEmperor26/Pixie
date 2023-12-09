@@ -409,9 +409,9 @@
         }
         function imgValidation(){
             let input = document.getElementById("fileInput");
-            let butn = document.getElementById("pixellate");
             if (!isImage(input.value)){
                 // disable button
+                let butn = document.getElementById("pixellate");
                 butn.disabled = true;
                 //
                 input.classList.add( "is-invalid");
@@ -424,7 +424,6 @@
             }
             else{
                 input.classList.remove( "is-invalid");
-                butn.disabled = false;
                 return true;
             }
         }
