@@ -69,7 +69,7 @@
         <div class="d-flex justify-content-center px-3">
             <div class="col-md-10 col-sm-12 col-lg-8 col-xl-6 p-2 ">
             <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="imageOut"> -->
-                    <canvas id="canvasOutput" class="img-thumbnail w-100" hidden ></canvas>
+                    <canvas id="canvasOutput" class="img-thumbnail w-100"  ></canvas>
             <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="canvasOutput"> -->
                 </div>
             </div>
@@ -479,6 +479,7 @@
               case 'jpg':
               case 'gif':
               case 'bmp':
+              case 'tiff':
               case 'png':
               case 'webp':
               case 'jpeg':
@@ -496,7 +497,7 @@
                 //
                 input.classList.add( "is-invalid");
                 const toastMessage = document.getElementById('toastMessage')
-                toastMessage.innerHTML = "Error: file is not an image. Supported formats: jpg, jpeg, gif, bmp, png, webp"
+                toastMessage.innerHTML = "Error: file is not an image. Supported formats: jpg, jpeg, gif, tiff, bmp, png, webp"
                 const toastLiveExample = document.getElementById('liveToast')
                 const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
                 toastBootstrap.show()

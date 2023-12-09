@@ -14,7 +14,7 @@
     <p class="h4 my-5 disabled  px-3">A Javascript Pixel Art Generator</p>
     <p class="h5 my-5 disabled  px-3">Powered by OpenCV</p>
     <div class="container ">
-            <div class="row fluid my-3 px-3">
+            <div class="d-flex justify-content-center px-3">
                 <div class="col-md-9 col-sm-9 col-11 pb-3">
                     <label for="fileInput" class="form-label">Select your image</label>
                     <input class="form-control" type="file" id="fileInput"  onchange="inputValidation();">
@@ -26,7 +26,7 @@
                 <input type="text" class="form-control" id="paletteValues" value=""  hidden >
             </div>
            
-            <div class="row fluid my-3 px-3 ">
+            <div class="d-flex justify-content-center px-3 ">
                 <div class="col-md-3 col-sm-12 col-11 pb-3">
                     <label for="paletteChoice" class="form-label">Palette</label>
                     <select class="form-select"  id ="paletteChoice" onchange="changePalette()">
@@ -69,7 +69,7 @@
         <div class="d-flex justify-content-center px-3">
             <div class="col-md-10 col-sm-12 col-lg-8 col-xl-6 p-2 ">
             <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="imageOut"> -->
-                    <canvas id="canvasOutput" class="img-thumbnail w-100" hidden ></canvas>
+                    <canvas id="canvasOutput" class="img-thumbnail w-100"  ></canvas>
             <!-- <img src="https://via.placeholder.com/150" class="img-thumbnail" alt="..." onclick="" id="canvasOutput"> -->
                 </div>
             </div>
